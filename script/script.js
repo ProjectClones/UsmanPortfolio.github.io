@@ -90,106 +90,75 @@ window.onload = typeWriter;
   skillBars.forEach(bar => observer.observe(bar));
 
 
-  // Conatct US
+  // Contatc us form
 
-  document.querySelector('form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent form submission
-    
+  document.addEventListener('DOMContentLoaded', () => {
     const name = document.getElementById('name');
     const phone = document.getElementById('phone');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
     const confirmationMessage = document.getElementById('confirmation-message');
-    let isValid = true;
+    const whatsappLink = document.getElementById('whatsapp-link'); // WhatsApp button
 
-    // Validate Full Name
-    if (name.value.trim() === '') {
-        name.style.borderBottom = '2px solid red';
-        isValid = false;
-    } else {
-        name.style.borderBottom = '2px solid aqua';
+    // Real-time validation function
+    function validateField(field, pattern) {
+        field.addEventListener('input', () => {
+            if (pattern.test(field.value.trim())) {
+                field.style.borderBottom = '2px solid aqua';
+            } else {
+                field.style.borderBottom = '2px solid red';
+            }
+        });
     }
 
-    // Validate Phone Number
-    const phonePattern = /^\d{10}$/; // Accepts 10-digit numbers
-    if (!phonePattern.test(phone.value.trim())) {
-        phone.style.borderBottom = '2px solid red';
-        isValid = false;
-    } else {
-        phone.style.borderBottom = '2px solid aqua';
-    }
+    // Add real-time validation for each field
+    validateField(name, /.+/); // Name: Non-empty value
+    validateField(phone, /^\d{11}$/); // Phone: Exactly 11 digits
+    validateField(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/); // Email: Valid email pattern
+    validateField(message, /.+/); // Message: Non-empty value
 
-    // Validate Email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email.value.trim())) {
-        email.style.borderBottom = '2px solid red';
-        isValid = false;
-    } else {
-        email.style.borderBottom = '2px solid aqua';
-    }
+    // Form submission handler
+    document.querySelector('form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
 
-    // Validate Message
-    if (message.value.trim() === '') {
-        message.style.borderBottom = '2px solid red';
-        isValid = false;
-    } else {
-        message.style.borderBottom = '2px solid aqua';
-    }
+        let isValid = true;
 
-    // If the form is valid
-    if (isValid) {
-        confirmationMessage.textContent = `Hello ${name.value.trim()}, your request has been successfully submitted!`;
-        confirmationMessage.style.display = 'block';
-        // Optionally, you can reset the form fields
-        name.value = '';
-        phone.value = '';
-        email.value = '';
-        message.value = '';
-        // Reset the border colors
-        name.style.borderBottom = '';
-        phone.style.borderBottom = '';
-        email.style.borderBottom = '';
-        message.style.borderBottom = '';
-    }
+        // Final validation before submission
+        if (name.value.trim() === '') {
+            name.style.borderBottom = '2px solid red';
+            isValid = false;
+        }
+        if (!/^\d{11}$/.test(phone.value.trim())) {
+            phone.style.borderBottom = '2px solid red';
+            isValid = false;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            email.style.borderBottom = '2px solid red';
+            isValid = false;
+        }
+        if (message.value.trim() === '') {
+            message.style.borderBottom = '2px solid red';
+            isValid = false;
+        }
+
+        // If all fields are valid
+        if (isValid) {
+            confirmationMessage.textContent = `Hello ${name.value.trim()}, there was something wrong with the server. Please contact me via WhatsApp.`;
+            confirmationMessage.style.display = 'block';
+
+            // Show the WhatsApp link
+            whatsappLink.style.display = 'inline-block';
+
+            // Reset fields and styles
+            name.value = '';
+            phone.value = '';
+            email.value = '';
+            message.value = '';
+            name.style.borderBottom = '';
+            phone.style.borderBottom = '';
+            email.style.borderBottom = '';
+            message.style.borderBottom = '';
+        }
+    });
 });
 
-
-
-// Dark Mode
-
-const toggleSwitch = document.getElementById('theme-toggle');
-const body = document.body;
-
-// Check local storage for the preferred theme
-const savedTheme = localStorage.getItem('theme') || 'light-mode';
-body.className = savedTheme;
-toggleSwitch.checked = savedTheme === 'dark-mode';
-
-// Event listener for the toggle switch
-toggleSwitch.addEventListener('change', () => {
-  const newTheme = toggleSwitch.checked ? 'dark-mode' : 'light-mode';
-  body.className = newTheme;
-  localStorage.setItem('theme', newTheme); // Save the preference
-});
-
-
-
-// Download cv
-
-document.getElementById('downloadCvBtn').addEventListener('click', function(e) {
-  e.preventDefault();
-  // Path to your CV file (make sure the file is available in the specified location)
-  const fileUrl = 'file:///C:/Users/M.Arslan/Downloads/Minimalist%20Photographer%20Resume.pdf';
-  
-  // Create a temporary link element to trigger the download
-  const link = document.createElement('a');
-  link.href = fileUrl;
-  link.download = 'My_CV.pdf'; // You can specify the name of the downloaded file
-  
-  // Append the link to the body and simulate a click
-  document.body.appendChild(link);
-  link.click();
-  
-  // Remove the temporary link after triggering the download
-  document.body.removeChild(link);
-});
