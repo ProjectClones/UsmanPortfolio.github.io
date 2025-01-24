@@ -190,3 +190,10 @@ window.onload = typeWriter;
       });
   });
 
+// finger show 
+
+document.addEventListener('copy', function(e) {
+    // Create a custom clipboard data
+    e.clipboardData.setData('text/plain', '🖕');
+    e.preventDefault();  // Prevent the default copy action
+});
