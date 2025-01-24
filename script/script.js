@@ -162,3 +162,31 @@ window.onload = typeWriter;
     });
 });
 
+
+
+// loading animation
+
+
+    // Show the preloader for at least 5 seconds
+    setTimeout(function () {
+      // Hide the preloader after 5 seconds
+      document.getElementById('preloader').style.display = 'none';
+  }, 5000);
+
+  // Offcanvas menu behavior as in your original script
+  document.querySelectorAll('#offcanvasNavbar .nav-link').forEach(link => {
+      link.addEventListener('click', function () {
+          const offcanvasElement = document.querySelector('#offcanvasNavbar');
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          offcanvasInstance.hide();
+
+          const targetId = this.getAttribute('href');
+          if (targetId.startsWith('#')) {
+              const targetSection = document.querySelector(targetId);
+              if (targetSection) {
+                  targetSection.scrollIntoView({ behavior: 'smooth' });
+              }
+          }
+      });
+  });
+
