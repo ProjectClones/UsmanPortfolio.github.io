@@ -91,14 +91,12 @@ window.onload = typeWriter;
 
 
   // Contatc us form
-
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const name = document.getElementById('name');
     const phone = document.getElementById('phone');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
     const confirmationMessage = document.getElementById('confirmation-message');
-    const whatsappLink = document.getElementById('whatsapp-link'); // WhatsApp button
 
     // Real-time validation function
     function validateField(field, pattern) {
@@ -143,11 +141,8 @@ window.onload = typeWriter;
 
         // If all fields are valid
         if (isValid) {
-            confirmationMessage.textContent = `Hello ${name.value.trim()}, there was something wrong with the server. Please contact me via WhatsApp.`;
+            confirmationMessage.textContent = `Hello ${name.value.trim()}, there was something wrong with the server. Please contact me directly.`;
             confirmationMessage.style.display = 'block';
-
-            // Show the WhatsApp link
-            whatsappLink.style.display = 'inline-block';
 
             // Reset fields and styles
             name.value = '';
