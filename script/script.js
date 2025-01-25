@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // If all fields are valid
         if (isValid) {
-            confirmationMessage.textContent = `Hello ${name.value.trim()}, there was something wrong with the server. Please contact me directly.`;
+            confirmationMessage.textContent = `Hello ${name.value.trim()}, Your Request Has Been Successfully Submitted.`;
             confirmationMessage.style.display = 'block';
 
             // Reset fields and styles
